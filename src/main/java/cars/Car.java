@@ -1,3 +1,5 @@
+package cars;
+
 public abstract class Car {
 
     private Integer year;
@@ -6,7 +8,6 @@ public abstract class Car {
     private Integer maxSpeed;
     private Integer fuelCapacity;
     private Integer power;
-    private Boolean isSportCar = false;
 
     public Car(String model, Integer year, String color, Integer maxSpeed, Integer fuelCapacity, Integer power){
         this.model = model;
@@ -18,9 +19,16 @@ public abstract class Car {
     }
 
     public Integer getYear() { return year; }
+
     public String getColor() { return color; }
+
     public Integer getMaxSpeed() { return maxSpeed; }
+
     public String getModel() { return model; }
+
+    public void changeColor(String newColor) {
+        color = newColor;
+    }
 
     public String getDescription(){
         return String.format("""
@@ -35,14 +43,7 @@ public abstract class Car {
                         this.getClass().getSimpleName(), model, year, color, maxSpeed, fuelCapacity, power);
     }
 
-    public void changeColor(String newColor) {
-        color = newColor;
-    }
-
     public String getSlogan() {
         return this.getClass().getSimpleName()+" slogan --- ";
     }
-
-
-
 }

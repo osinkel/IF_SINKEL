@@ -1,4 +1,8 @@
-public class Nissan extends Car{
+package cars.models;
+
+import cars.Car;
+
+public class Nissan extends Car {
     public Nissan(String model, Integer year, String color, Integer maxSpeed, Integer fuelCapacity, Integer power) {
         super(model, year, color, maxSpeed, fuelCapacity, power);
     }

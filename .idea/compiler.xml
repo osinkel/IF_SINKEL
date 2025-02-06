@@ -9,5 +9,6 @@
         <module name="IF_SINKEL" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="17" />
   </component>
 </project>
