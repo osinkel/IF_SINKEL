@@ -1,3 +1,6 @@
+import cars.Car;
+import cars.models.*;
+
 import java.util.*;
 
 public class Main {
@@ -6,6 +9,8 @@ public class Main {
         for(Car car : cars){
             if(car.getYear() > 2006){
                 System.out.println(car.getDescription());
+            } else {
+                System.out.println(car.getModel() + " of " + car.getYear() + " is an outdated car.");
             }
         }
     }
@@ -15,7 +20,7 @@ public class Main {
         String searchColor = "Green";
         if(car.getColor().equalsIgnoreCase(searchColor)){
             car.changeColor(newColor);
-            System.out.printf(car.getClass().getSimpleName()+" "+car.getModel()+ " color was changed from %s to %s%n\n", searchColor, newColor);
+            System.out.printf(car.getClass().getSimpleName()+" "+car.getModel()+ " color was changed from %s to %s\n", searchColor, newColor);
         }
         return car;
     }
@@ -23,8 +28,6 @@ public class Main {
     public static void printSloganOfFastestCar(List<Car> cars){
         System.out.println(Collections.max(cars, Comparator.comparing(Car::getMaxSpeed)).getSlogan());
     }
-
-
 
     public static void main(String[] args) {
         //it's Main origin
@@ -38,18 +41,15 @@ public class Main {
         cars.add(new Suzuki("SX4", 2006, "Red", 192, 54, 137));
         cars.add(new Nissan("GT-R", 2009, "Silver", 255, 58, 178));
         cars.add(new Nissan("300ZX", 1989, "Yellow", 210, 54, 164));
-        cars.add(new Wolkswagen("Sharan", 1994, "Grey", 160, 60, 137));
-        cars.add(new Wolkswagen("Passat", 2004, "Green", 180, 68, 134));
+        cars.add(new Volkswagen("Sharan", 1994, "Grey", 160, 60, 137));
+        cars.add(new Volkswagen("Passat", 2004, "Green", 180, 68, 134));
+
+        cars.replaceAll(Main::changeColorIfGreen);
 
         printCarsAfter2006(cars);
-
-        for(Car car : cars){
-            car = changeColorIfGreen(car);
-        }
 
         printSloganOfFastestCar(cars);
 
 
-        //it's hotfix origin
     }
 }
