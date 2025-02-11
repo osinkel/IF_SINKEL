@@ -1,20 +1,22 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pages.BugPage;
-import pages.LoginPage;
-import pages.MainPage;
-import pages.TestProjectPage;
+import pages.*;
+import pages.modal.TaskCreationPage;
+import pages.tasks.TaskPage;
+import pages.tasks.TasksListPage;
+import pages.tasks.TasksPage;
 
 public class NewBugTest extends Webhooks {
     private final LoginPage loginPage = new LoginPage();
-    private final MainPage mainPage = new MainPage();
-    private final TestProjectPage testProjectPage = new TestProjectPage();
-    private final BugPage bugPage = new BugPage();
+    private final TasksListPage tasksListPage = new TasksListPage();
+    private final TasksPage tasksPage = new TasksPage();
+    private final TaskPage taskPage = new TaskPage();
+    private final TaskCreationPage taskCreationPage = new TaskCreationPage();
 
     @Test
     @DisplayName("Вход в edujira.ifellow.ru")
-    public void loginIfellow(){
+    public void loginIfellowTest(){
         loginPage.inputUsername("AT12");
         loginPage.inputPassword("Qwerty123");
         loginPage.clickLoginButton();
@@ -23,51 +25,63 @@ public class NewBugTest extends Webhooks {
 
     @Test
     @DisplayName("Перейти в проект 'Test'")
-    public void goToTestProject(){
-        loginIfellow();
-        mainPage.openTestProject();
-        Assertions.assertEquals("Доска TEST", mainPage.returnBoardName());
+    public void goToTestProjectTest(){
+        loginIfellowTest();
+        tasksListPage.openTestProject();
+        tasksListPage.changeViewToTasksList();
+        Assertions.assertEquals("Доска TEST", tasksListPage.returnBoardName());
     }
 
     @Test
     @DisplayName("Проверить общее количество заведенных задач в проекте")
-    public void checkBugCounter(){
-        goToTestProject();
-        testProjectPage.changeViewToTasks();
-        Integer initialCounterValue = testProjectPage.getBugCounterValue();
-        testProjectPage.openCreateBugWindow();
-        testProjectPage.fillSummaryField("Проверка счетчика");
-        testProjectPage.createBug();
-        Integer finalCounterValue = testProjectPage.getBugCounterValue();
+    public void checkBugCounterTest(){
+        goToTestProjectTest();
+        tasksPage.changeViewToTasks();
+        Integer initialCounterValue = tasksPage.getBugCounterValue();
+        tasksPage.openCreateBugWindow();
+        taskCreationPage.fillSummaryField("Проверка счетчика");
+        taskCreationPage.createBug(true);
+        Integer finalCounterValue = tasksPage.getBugCounterValue();
         Assertions.assertEquals(1, finalCounterValue-initialCounterValue);
     }
 
     @Test
     @DisplayName("Перейти в задачу TestSeleniumATHomework и проверить статус и версию для исправления")
-    public void checkBugStatusAndVersion(){
-        checkBugCounter();
-        testProjectPage.setSearchQuery("TestSeleniumATHomework");
-        testProjectPage.openSearchResultItem();
-        Assertions.assertEquals("Сделать", bugPage.getStatusDetailsValue());
-        Assertions.assertEquals("Version 2.0", bugPage.getVersionDetailsValue());
+    public void checkBugStatusAndVersionTest(){
+        checkBugCounterTest();
+        tasksPage.setSearchQuery("TestSeleniumATHomework");
+        tasksPage.openSearchResultItem();
+        Assertions.assertEquals("Сделать", taskPage.getStatusDetailsValue());
+        Assertions.assertEquals("Version 2.0", taskPage.getVersionDetailsValue());
     }
 
     @Test
     @DisplayName("Создать новый баг с описанием")
-    public void createNewBug(){
-        checkBugStatusAndVersion();
-//        testProjectPage.openCreateBugWindow();
-//        testProjectPage.fillSummaryField("HW3_IF_SINKEL");
-//        testProjectPage.fillDescriptionField("HW3_IF_SINKEL");
-//        testProjectPage.clickDescriptionVisualButton();
-//        testProjectPage.fillLabelsField("positive");
-//        testProjectPage.fillEnvironmentField("HW3_IF_SINKEL");
-//        testProjectPage.clickEnvironmentVisualButton();
-//        testProjectPage.fillIssuedLinksField("TEST-172051");
-//        testProjectPage.clickAssignToMeButton();
-//        testProjectPage.setEpicInput();
-//        testProjectPage.createBug();
-        testProjectPage.goToCreatedTask();
+    public void createNewBugTest(){
+        checkBugStatusAndVersionTest();
+        tasksPage.changeViewToTasks();
+        Integer initialCounterValue = tasksPage.getBugCounterValue();
+        tasksPage.openCreateBugWindow();
+        taskCreationPage.fillSummaryField("HW3_IF_SINKEL");
+        taskCreationPage.fillDescriptionField("HW3_IF_SINKEL");
+        taskCreationPage.clickDescriptionVisualButton();
+        taskCreationPage.fillLabelsField("positive");
+        taskCreationPage.fillEnvironmentField("HW3_IF_SINKEL");
+        taskCreationPage.clickEnvironmentVisualButton();
+        taskCreationPage.fillIssuedLinksField();
+        taskCreationPage.clickAssignToMeButton();
+        taskCreationPage.setChangeInVersion2();
+        taskCreationPage.setAffectedVersion2();
+        taskCreationPage.setEpicInput();
+        taskCreationPage.setSprintInput();
+        taskCreationPage.setSeverity();
+        taskCreationPage.createBug(true);
+        Integer finalCounterValue = tasksPage.getBugCounterValue();
+        Assertions.assertEquals(1, finalCounterValue-initialCounterValue);
+        tasksPage.goToCreatedTask();
+        tasksPage.setStatusInProgress();
+        tasksPage.setStatusCompleted();
+        Assertions.assertEquals("Готово", tasksPage.getCurrentStatus());
     }
 
 }
