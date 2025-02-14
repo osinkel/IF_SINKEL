@@ -1,3 +1,5 @@
+package pagestest;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -6,6 +8,7 @@ import pages.modal.TaskCreationPage;
 import pages.tasks.TaskPage;
 import pages.tasks.TasksListPage;
 import pages.tasks.TasksPage;
+import webhooks.Webhooks;
 
 public class NewBugTest extends Webhooks {
     private final LoginPage loginPage = new LoginPage();
@@ -40,7 +43,8 @@ public class NewBugTest extends Webhooks {
         Integer initialCounterValue = tasksPage.getBugCounterValue();
         tasksPage.openCreateBugWindow();
         taskCreationPage.fillSummaryField("Проверка счетчика");
-        taskCreationPage.createBug(true);
+        taskCreationPage.createBug();
+        tasksPage.changeViewToTasks();
         Integer finalCounterValue = tasksPage.getBugCounterValue();
         Assertions.assertEquals(1, finalCounterValue-initialCounterValue);
     }
@@ -75,7 +79,8 @@ public class NewBugTest extends Webhooks {
         taskCreationPage.setEpicInput();
         taskCreationPage.setSprintInput();
         taskCreationPage.setSeverity();
-        taskCreationPage.createBug(true);
+        taskCreationPage.createBug();
+        tasksPage.changeViewToTasks();
         Integer finalCounterValue = tasksPage.getBugCounterValue();
         Assertions.assertEquals(1, finalCounterValue-initialCounterValue);
         tasksPage.goToCreatedTask();

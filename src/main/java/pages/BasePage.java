@@ -7,10 +7,13 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class BasePage {
 
-    private SelenideElement projectsMenu = $x("//div[@class='aui-header-primary']//ul[@class='aui-nav']/li[2]");
-    private SelenideElement testProjectLink = $x("//a[@id='admin_main_proj_link_lnk']");
-    private SelenideElement searchInput = $x("//input[@id='quickSearchInput']");
-    private SelenideElement searchResultItem = $x("//div[@class='quicksearch-dropdown']/div[1]/ul/li[1]");
+    private SelenideElement projectsMenu = $x("//div[@class='aui-header-primary']//ul[@class='aui-nav']/li[2]")
+            .as("Кнопка 'Проекты'");
+    private SelenideElement testProjectLink = $x("//a[@id='admin_main_proj_link_lnk']")
+            .as("Проект 'Test(TEST)'");
+    private SelenideElement searchInput = $x("//input[@id='quickSearchInput']").as("Поисковая строка");
+    private SelenideElement searchResultItem = $x("//div[@class='quicksearch-dropdown']/div[1]/ul/li[1]")
+            .as("Выпадающий список с результатами поиска");
 
     public void openTestProject(){
         this.projectsMenu.click();
