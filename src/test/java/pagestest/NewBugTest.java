@@ -8,9 +8,9 @@ import pages.modal.TaskCreationPage;
 import pages.tasks.TaskPage;
 import pages.tasks.TasksListPage;
 import pages.tasks.TasksPage;
-import webhooks.Webhooks;
+import webhooks.PageWebhook;
 
-public class NewBugTest extends Webhooks {
+public class NewBugTest extends PageWebhook {
     private final LoginPage loginPage = new LoginPage();
     private final TasksListPage tasksListPage = new TasksListPage();
     private final TasksPage tasksPage = new TasksPage();

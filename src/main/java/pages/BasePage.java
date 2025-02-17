@@ -7,13 +7,14 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class BasePage {
 
+    private SelenideElement openCreateBugWindowButton = $x("//a[@id='create_link']").as("Кнопка 'Создать'");
     private SelenideElement projectsMenu = $x("//div[@class='aui-header-primary']//ul[@class='aui-nav']/li[2]")
             .as("Кнопка 'Проекты'");
     private SelenideElement testProjectLink = $x("//a[@id='admin_main_proj_link_lnk']")
             .as("Проект 'Test(TEST)'");
     private SelenideElement searchInput = $x("//input[@id='quickSearchInput']").as("Поисковая строка");
     private SelenideElement searchResultItem = $x("//div[@class='quicksearch-dropdown']/div[1]/ul/li[1]")
-            .as("Выпадающий список с результатами поиска");
+            .as("Первый результат поиска в выпадающем списке");
 
     public void openTestProject(){
         this.projectsMenu.click();
@@ -26,5 +27,9 @@ public class BasePage {
 
     public void openSearchResultItem(){
         searchResultItem.shouldBe(Condition.visible).click();
+    }
+
+    public void openCreateBugWindow() {
+        this.openCreateBugWindowButton.click();
     }
 }

@@ -8,13 +8,13 @@ import org.openqa.selenium.PageLoadStrategy;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-public class Webhooks {
+public class PageWebhook {
 
     @BeforeEach
     public void setup(){
         Configuration.browser = "chrome";
         Configuration.pageLoadStrategy = PageLoadStrategy.EAGER.toString();
-        Configuration.timeout = 70000;
+        Configuration.timeout = 10000;
 
         Selenide.open("https://edujira.ifellow.ru");
         getWebDriver().manage().window().maximize();
