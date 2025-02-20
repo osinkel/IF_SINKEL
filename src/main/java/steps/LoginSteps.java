@@ -13,7 +13,7 @@ public class LoginSteps {
         loginPage.clickLoginButton();
     }
 
-    @Тогда("тогда выполнен переход на главную страницу и виден элемент Лента активности")
+    @Тогда("выполнен переход на главную страницу и виден элемент Лента активности")
     public void checkWelcomeMessage(){
         System.out.println(loginPage.returnWelcomeMessage() + " - виден");
     }

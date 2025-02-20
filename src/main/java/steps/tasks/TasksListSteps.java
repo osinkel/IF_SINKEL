@@ -8,7 +8,7 @@ public class TasksListSteps {
 
     TasksListPage tasksListPage = new TasksListPage();
 
-    @Когда("нажать на кнопку проекты в горизонтальном навигационном меню в выпавшем списке нажать на кнопку с проектом Test \\(TEST)")
+    @Когда("нажать на кнопку проекты в горизонтальном навигационном меню и в выпавшем списке нажать на кнопку с проектом Test \\(TEST)")
     public void clickedOnButtonProjects() {
         tasksListPage.openTestProject();
     }

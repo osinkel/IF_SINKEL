@@ -2,15 +2,15 @@ package webhooks;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import org.openqa.selenium.PageLoadStrategy;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-public class PageWebhook {
+public class Webhook {
 
-    @BeforeEach
+    @Before
     public void setup(){
         Configuration.browser = "chrome";
         Configuration.pageLoadStrategy = PageLoadStrategy.EAGER.toString();
@@ -20,7 +20,7 @@ public class PageWebhook {
         getWebDriver().manage().window().maximize();
     }
 
-    @AfterEach
+    @After
     public void afterTest() {
         Selenide.closeWebDriver();
     }

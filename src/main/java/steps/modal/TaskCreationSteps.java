@@ -22,7 +22,7 @@ public class TaskCreationSteps {
         taskCreationPage.fillDescriptionField("HW3_IF_SINKEL");
     }
 
-    @И("кликнуть кнопку Визуальный у поля Описание")
+    @И("нажать кнопку Визуальный у поля Описание")
     public void clickDescriptionVisualButton(){
         taskCreationPage.clickDescriptionVisualButton();
     }
@@ -37,7 +37,7 @@ public class TaskCreationSteps {
         taskCreationPage.fillEnvironmentField(value);
     }
 
-    @И("кликнуть кнопку Визуальный у поля Окружение")
+    @И("нажать кнопку Визуальный у поля Окружение")
     public void clickEnvironmentVisualButton(){
         taskCreationPage.clickEnvironmentVisualButton();
     }
@@ -47,7 +47,7 @@ public class TaskCreationSteps {
         taskCreationPage.fillIssuedLinksField();
     }
 
-    @И("кликнуть на кнопку Назанчить меня")
+    @И("нажать на кнопку Назанчить меня")
     public void fillLabelsField(){
         taskCreationPage.clickAssignToMeButton();
     }
