@@ -1,15 +1,17 @@
 package pagestest;
 
+import config.ConfigReader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pages.*;
+import pages.LoginPage;
 import pages.modal.TaskCreationPage;
 import pages.tasks.TaskPage;
 import pages.tasks.TasksListPage;
 import pages.tasks.TasksPage;
 import webhooks.Webhooks;
 
+@DisplayName("Тест создания бага")
 public class NewBugTest extends Webhooks {
     private final LoginPage loginPage = new LoginPage();
     private final TasksListPage tasksListPage = new TasksListPage();
@@ -20,10 +22,10 @@ public class NewBugTest extends Webhooks {
     @Test
     @DisplayName("Вход в edujira.ifellow.ru")
     public void loginIfellowTest(){
-        loginPage.inputUsername("AT12");
-        loginPage.inputPassword("Qwerty123");
+        loginPage.inputUsername(ConfigReader.getProp("username"));
+        loginPage.inputPassword(ConfigReader.getProp("password"));
         loginPage.clickLoginButton();
-        Assertions.assertEquals("Добро пожаловать в Jira", loginPage.returnWelcomeMessage());
+        Assertions.assertEquals(ConfigReader.getProp("test.welcomemessage"), loginPage.returnWelcomeMessage());
     }
 
     @Test
@@ -32,7 +34,7 @@ public class NewBugTest extends Webhooks {
         loginIfellowTest();
         tasksListPage.openTestProject();
         tasksListPage.changeViewToTasksList();
-        Assertions.assertEquals("Доска TEST", tasksListPage.returnBoardName());
+        Assertions.assertEquals(ConfigReader.getProp("page.main.boaardname"), tasksListPage.returnBoardName());
     }
 
     @Test
@@ -42,7 +44,7 @@ public class NewBugTest extends Webhooks {
         tasksPage.changeViewToTasks();
         Integer initialCounterValue = tasksPage.getBugCounterValue();
         tasksPage.openCreateBugWindow();
-        taskCreationPage.fillSummaryField("Проверка счетчика");
+        taskCreationPage.fillSummaryField(ConfigReader.getProp("page.task.summary"));
         taskCreationPage.createBug();
         tasksPage.changeViewToTasks();
         Integer finalCounterValue = tasksPage.getBugCounterValue();
@@ -53,10 +55,10 @@ public class NewBugTest extends Webhooks {
     @DisplayName("Перейти в задачу TestSeleniumATHomework и проверить статус и версию для исправления")
     public void checkBugStatusAndVersionTest(){
         checkBugCounterTest();
-        tasksPage.setSearchQuery("TestSeleniumATHomework");
+        tasksPage.setSearchQuery(ConfigReader.getProp("page.main.searchquery"));
         tasksPage.openSearchResultItem();
-        Assertions.assertEquals("Сделать", taskPage.getStatusDetailsValue());
-        Assertions.assertEquals("Version 2.0", taskPage.getVersionDetailsValue());
+        Assertions.assertEquals(ConfigReader.getProp("test.status.todo"), taskPage.getStatusDetailsValue());
+        Assertions.assertEquals(ConfigReader.getProp("test.version"), taskPage.getVersionDetailsValue());
     }
 
     @Test
@@ -66,11 +68,11 @@ public class NewBugTest extends Webhooks {
         tasksPage.changeViewToTasks();
         Integer initialCounterValue = tasksPage.getBugCounterValue();
         tasksPage.openCreateBugWindow();
-        taskCreationPage.fillSummaryField("HW3_IF_SINKEL");
-        taskCreationPage.fillDescriptionField("HW3_IF_SINKEL");
+        taskCreationPage.fillSummaryField(ConfigReader.getProp("page.task.summary"));
+        taskCreationPage.fillDescriptionField(ConfigReader.getProp("page.task.description"));
         taskCreationPage.clickDescriptionVisualButton();
-        taskCreationPage.fillLabelsField("positive");
-        taskCreationPage.fillEnvironmentField("HW3_IF_SINKEL");
+        taskCreationPage.fillLabelsField(ConfigReader.getProp("page.task.label"));
+        taskCreationPage.fillEnvironmentField(ConfigReader.getProp("page.task.environment"));
         taskCreationPage.clickEnvironmentVisualButton();
         taskCreationPage.fillIssuedLinksField();
         taskCreationPage.clickAssignToMeButton();
@@ -86,7 +88,7 @@ public class NewBugTest extends Webhooks {
         tasksPage.goToCreatedTask();
         tasksPage.setStatusInProgress();
         tasksPage.setStatusCompleted();
-        Assertions.assertEquals("Готово", tasksPage.getCurrentStatus());
+        Assertions.assertEquals(ConfigReader.getProp("test.status.complete"), tasksPage.getCurrentStatus());
     }
 
 }

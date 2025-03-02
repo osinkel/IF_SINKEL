@@ -3,6 +3,7 @@ package pages.modal;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.switchTo;
@@ -42,66 +43,80 @@ public class TaskCreationPage {
                     .as("Первый спринт");
     private SelenideElement severityMinorField = $x("//select[@id='customfield_10400']/option[2]").as("Серьезность");
 
+    @Step("Нажать на кнопку создания бага")
     public void createBug() {
         this.createBugButton.click();
         Selenide.sleep(1000L);
     }
 
+    @Step("Заполнить поле 'Тема'")
     public void fillSummaryField(String summary){
         this.summaryField.shouldBe(Condition.visible).val(summary);
     }
 
+    @Step("Заполнить поле 'Описание'")
     public void fillDescriptionField(String description){
         switchTo().frame($x("//div[@id='description-wiki-edit']//iframe"));
         $x("//p").val(description);
         switchTo().parentFrame();
     }
 
+    @Step("Заполнить поле 'Метки'")
     public void fillLabelsField(String label){
         this.labelsField.shouldBe(Condition.visible).val(label);
     }
 
+    @Step("Заполнить поле 'Окружение'")
     public void fillEnvironmentField(String environment){
         switchTo().frame($x("//div[@id='environment-wiki-edit']//iframe"));
         $x("//p").val(environment);
         switchTo().parentFrame();
     }
 
+    @Step("Выбрать первую задачу из списка 'Связанные задачи'")
     public void fillIssuedLinksField(){
         this.issuedLinksButton.click();
         this.firstEssuedLink.click();
     }
 
+    @Step("Нажать на кнопку 'Визуальный' у поля 'Описание'")
     public void clickDescriptionVisualButton(){
         this.descriptionVisualButton.click();
     }
 
+    @Step("Нажать на кнопку 'Визуальный' у поля 'Окружение'")
     public void clickEnvironmentVisualButton(){
         this.environmentVisualButton.click();
     }
 
+    @Step("Нажать на кнопку 'Назничить меня'")
     public void clickAssignToMeButton(){
         this.assignToMeButton.click();
     }
 
+    @Step("Выбрать версию для изменений '2.0'")
     public void setChangeInVersion2() {
         this.changeInVersion2.click();
     }
 
+    @Step("Нажать на кнопку 'Визуальный' у поля 'Описание'")
     public void setAffectedVersion2() {
         this.affectedVersion2.click();
     }
 
+    @Step("Выбрать первый эпик из списка доступных эпиков")
     public void setEpicInput(){
         this.epicInput.click();
         this.firstEpicLink.click();
     }
 
+    @Step("Выбрать первый спринт из списка доступных спринтов")
     public void setSprintInput(){
         this.sprintInput.click();
         this.firstSprintLink.click();
     }
 
+    @Step("Выбрать не значительную серьезность задачи")
     public void setSeverity(){
         this.severityMinorField.click();
     }
