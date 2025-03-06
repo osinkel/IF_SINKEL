@@ -41,7 +41,13 @@ public class TaskCreationPage {
     private SelenideElement firstSprintLink =
             $x("//div[@class='ajs-layer box-shadow active']//*[@id='предложения']/*[1]")
                     .as("Первый спринт");
-    private SelenideElement severityMinorField = $x("//select[@id='customfield_10400']/option[2]").as("Серьезность");
+    private SelenideElement severityMinorField = $x("//select[@id='customfield_10400']/option[2]")
+            .as("Серьезность");
+    private SelenideElement descriptionFrame = $x("//div[@id='description-wiki-edit']//iframe")
+            .as("Фрэйм с описанием");
+    private SelenideElement environmentFrame = $x("//div[@id='environment-wiki-edit']//iframe")
+            .as("Фрэйм с окружением");
+    private SelenideElement commonParagraph = $x("//p").as("Параграф");
 
     @Step("Нажать на кнопку создания бага")
     public void createBug() {
@@ -56,8 +62,8 @@ public class TaskCreationPage {
 
     @Step("Заполнить поле 'Описание'")
     public void fillDescriptionField(String description){
-        switchTo().frame($x("//div[@id='description-wiki-edit']//iframe"));
-        $x("//p").val(description);
+        switchTo().frame(descriptionFrame);
+        commonParagraph.val(description);
         switchTo().parentFrame();
     }
 
@@ -68,8 +74,8 @@ public class TaskCreationPage {
 
     @Step("Заполнить поле 'Окружение'")
     public void fillEnvironmentField(String environment){
-        switchTo().frame($x("//div[@id='environment-wiki-edit']//iframe"));
-        $x("//p").val(environment);
+        switchTo().frame(environmentFrame);
+        commonParagraph.val(environment);
         switchTo().parentFrame();
     }
 

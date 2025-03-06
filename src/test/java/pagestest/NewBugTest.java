@@ -1,6 +1,7 @@
 package pagestest;
 
 import config.ConfigReader;
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ public class NewBugTest extends Webhooks {
 
     @Test
     @DisplayName("Вход в edujira.ifellow.ru")
+    @Description("Авторизация пользователя на сайт edujira.ifellow.ru")
     public void loginIfellowTest(){
         loginPage.inputUsername(ConfigReader.getProp("username"));
         loginPage.inputPassword(ConfigReader.getProp("password"));
@@ -30,6 +32,7 @@ public class NewBugTest extends Webhooks {
 
     @Test
     @DisplayName("Перейти в проект 'Test'")
+    @Description("После авторизации переход в проект 'Test'")
     public void goToTestProjectTest(){
         loginIfellowTest();
         tasksListPage.openTestProject();
@@ -39,6 +42,7 @@ public class NewBugTest extends Webhooks {
 
     @Test
     @DisplayName("Проверить общее количество заведенных задач в проекте")
+    @Description("Создать задачу и проверить или сменился счетчик существующих задач")
     public void checkBugCounterTest(){
         goToTestProjectTest();
         tasksPage.changeViewToTasks();
@@ -52,7 +56,9 @@ public class NewBugTest extends Webhooks {
     }
 
     @Test
-    @DisplayName("Перейти в задачу TestSeleniumATHomework и проверить статус и версию для исправления")
+    @DisplayName("Перейти в задачу 'TestSeleniumATHomework' и проверить статус и версию для исправления")
+    @Description("С помощью поискового запроса 'TestSeleniumATHomework' перейти в соответствую задачу и" +
+            " проверить статус и версию для исправления этой задачи")
     public void checkBugStatusAndVersionTest(){
         checkBugCounterTest();
         tasksPage.setSearchQuery(ConfigReader.getProp("page.main.searchquery"));
@@ -63,6 +69,7 @@ public class NewBugTest extends Webhooks {
 
     @Test
     @DisplayName("Создать новый баг с описанием")
+    @Description("Создать полноценную задачу с заполнением всех доступных полей и перевести ее в статусы 'В работе' и 'Готово'")
     public void createNewBugTest(){
         checkBugStatusAndVersionTest();
         tasksPage.changeViewToTasks();
