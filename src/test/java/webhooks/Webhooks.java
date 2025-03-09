@@ -7,6 +7,7 @@ import config.ConfigReader;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.PageLoadStrategy;
 
@@ -23,7 +24,10 @@ public class Webhooks {
 
         Selenide.open(ConfigReader.getProp("selenide.url"));
         getWebDriver().manage().window().maximize();
+    }
 
+    @BeforeAll
+    public static void initializeAllureListener(){
         SelenideLogger.addListener(
                 "AllureTestListener",
                 new AllureSelenide()

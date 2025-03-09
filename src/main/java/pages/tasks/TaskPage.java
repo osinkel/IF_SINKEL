@@ -15,7 +15,7 @@ public class TaskPage {
         return this.statusDetails.getOwnText();
     }
 
-    @Step("Полчить текущую версию для изменения")
+    @Step("Получить текущую версию для изменения")
     public String getVersionDetailsValue(){
         return this.versionDetails.getText();
     }
