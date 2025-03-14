@@ -17,7 +17,7 @@ public class Webhooks {
 
     @BeforeEach
     @Step("Открыть браузер")
-    public void setup(){
+    public void setup() {
         Configuration.browser = ConfigReader.getProp("selenide.browser");
         Configuration.pageLoadStrategy = PageLoadStrategy.EAGER.toString();
         Configuration.timeout = Long.parseLong(ConfigReader.getProp("selenide.timeout"));
@@ -27,12 +27,12 @@ public class Webhooks {
     }
 
     @BeforeAll
-    public static void initializeAllureListener(){
+    public static void initializeAllureListener() {
         SelenideLogger.addListener(
                 "AllureTestListener",
                 new AllureSelenide()
                         .screenshots(Boolean.parseBoolean(ConfigReader.getProp("logger.save.screenshot")))
-                        .savePageSource(Boolean.parseBoolean(ConfigReader.getProp("logger.save.pagesource"))));
+                        .savePageSource(Boolean.parseBoolean(ConfigReader.getProp("logger.save.page.source"))));
     }
 
     @AfterEach

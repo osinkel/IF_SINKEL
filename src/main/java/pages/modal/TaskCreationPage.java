@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
+import pages.tasks.TasksPage;
 
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.switchTo;
@@ -50,80 +51,93 @@ public class TaskCreationPage {
     private SelenideElement commonParagraph = $x("//p").as("Параграф");
 
     @Step("Нажать на кнопку создания бага")
-    public void createBug() {
+    public TasksPage createBug() {
         this.createBugButton.click();
-        Selenide.sleep(1000L);
+        return new TasksPage();
     }
 
     @Step("Заполнить поле 'Тема'")
-    public void fillSummaryField(String summary){
+    public TaskCreationPage fillSummaryField(String summary) {
         this.summaryField.shouldBe(Condition.visible).val(summary);
+        return this;
     }
 
     @Step("Заполнить поле 'Описание'")
-    public void fillDescriptionField(String description){
+    public TaskCreationPage fillDescriptionField(String description) {
         switchTo().frame(descriptionFrame);
         commonParagraph.val(description);
         switchTo().parentFrame();
+        return this;
     }
 
     @Step("Заполнить поле 'Метки'")
-    public void fillLabelsField(String label){
+    public TaskCreationPage fillLabelsField(String label) {
         this.labelsField.shouldBe(Condition.visible).val(label);
+        return this;
     }
 
     @Step("Заполнить поле 'Окружение'")
-    public void fillEnvironmentField(String environment){
+    public TaskCreationPage fillEnvironmentField(String environment) {
         switchTo().frame(environmentFrame);
         commonParagraph.val(environment);
         switchTo().parentFrame();
+        return this;
     }
 
     @Step("Выбрать первую задачу из списка 'Связанные задачи'")
-    public void fillIssuedLinksField(){
+    public TaskCreationPage fillIssuedLinksField() {
         this.issuedLinksButton.click();
         this.firstEssuedLink.click();
+        return this;
     }
 
     @Step("Нажать на кнопку 'Визуальный' у поля 'Описание'")
-    public void clickDescriptionVisualButton(){
+    public TaskCreationPage clickDescriptionVisualButton() {
         this.descriptionVisualButton.click();
+        return this;
     }
 
     @Step("Нажать на кнопку 'Визуальный' у поля 'Окружение'")
-    public void clickEnvironmentVisualButton(){
+    public TaskCreationPage clickEnvironmentVisualButton() {
         this.environmentVisualButton.click();
+        return this;
     }
 
     @Step("Нажать на кнопку 'Назничить меня'")
-    public void clickAssignToMeButton(){
+    public TaskCreationPage clickAssignToMeButton() {
         this.assignToMeButton.click();
+        return this;
     }
 
     @Step("Выбрать версию для изменений '2.0'")
-    public void setChangeInVersion2() {
+    public TaskCreationPage setChangeInVersion2() {
         this.changeInVersion2.click();
+        return this;
     }
 
     @Step("Нажать на кнопку 'Визуальный' у поля 'Описание'")
-    public void setAffectedVersion2() {
+    public TaskCreationPage setAffectedVersion2() {
         this.affectedVersion2.click();
+        return this;
     }
 
     @Step("Выбрать первый эпик из списка доступных эпиков")
-    public void setEpicInput(){
+    public TaskCreationPage setEpicInput() {
         this.epicInput.click();
         this.firstEpicLink.click();
+        return this;
     }
 
     @Step("Выбрать первый спринт из списка доступных спринтов")
-    public void setSprintInput(){
+    public TaskCreationPage setSprintInput() {
         this.sprintInput.click();
         this.firstSprintLink.click();
+        return this;
     }
 
     @Step("Выбрать не значительную серьезность задачи")
-    public void setSeverity(){
+    public TaskCreationPage setSeverity() {
         this.severityMinorField.click();
+        return this;
     }
 }

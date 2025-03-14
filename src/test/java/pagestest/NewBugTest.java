@@ -2,7 +2,6 @@ package pagestest;
 
 import config.ConfigReader;
 import io.qameta.allure.Description;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
@@ -24,10 +23,11 @@ public class NewBugTest extends Webhooks {
     @DisplayName("Вход в edujira.ifellow.ru")
     @Description("Авторизация пользователя на сайт edujira.ifellow.ru")
     public void loginIfellowTest(){
-        loginPage.inputUsername(ConfigReader.getProp("username"));
-        loginPage.inputPassword(ConfigReader.getProp("password"));
-        loginPage.clickLoginButton();
-        Assertions.assertEquals(ConfigReader.getProp("test.welcomemessage"), loginPage.returnWelcomeMessage());
+        loginPage
+                .inputUsername(ConfigReader.getProp("username"))
+                .inputPassword(ConfigReader.getProp("password"))
+                .clickLoginButton()
+                .checkWelcomeMessage(ConfigReader.getProp("test.welcome.message"));
     }
 
     @Test
@@ -35,9 +35,10 @@ public class NewBugTest extends Webhooks {
     @Description("После авторизации переход в проект 'Test'")
     public void goToTestProjectTest(){
         loginIfellowTest();
-        tasksListPage.openTestProject();
-        tasksListPage.changeViewToTasksList();
-        Assertions.assertEquals(ConfigReader.getProp("page.main.boaardname"), tasksListPage.returnBoardName());
+        tasksListPage
+                .openTestProject()
+                .changeViewToTasksList()
+                .checkBoardName(ConfigReader.getProp("page.main.board.name"));
     }
 
     @Test
@@ -45,14 +46,15 @@ public class NewBugTest extends Webhooks {
     @Description("Создать задачу и проверить или сменился счетчик существующих задач")
     public void checkBugCounterTest(){
         goToTestProjectTest();
-        tasksPage.changeViewToTasks();
-        Integer initialCounterValue = tasksPage.getBugCounterValue();
-        tasksPage.openCreateBugWindow();
-        taskCreationPage.fillSummaryField(ConfigReader.getProp("page.task.summary"));
-        taskCreationPage.createBug();
-        tasksPage.changeViewToTasks();
-        Integer finalCounterValue = tasksPage.getBugCounterValue();
-        Assertions.assertEquals(1, finalCounterValue-initialCounterValue);
+        tasksPage
+                .changeViewToTasks()
+                .getBugCounterValue()
+                .openCreateBugWindow()
+                .fillSummaryField(ConfigReader.getProp("page.task.summary"))
+                .createBug()
+                .changeViewToTasks()
+                .getBugCounterValue()
+                .checkBugCounter();
     }
 
     @Test
@@ -61,41 +63,43 @@ public class NewBugTest extends Webhooks {
             " проверить статус и версию для исправления этой задачи")
     public void checkBugStatusAndVersionTest(){
         checkBugCounterTest();
-        tasksPage.setSearchQuery(ConfigReader.getProp("page.main.searchquery"));
-        tasksPage.openSearchResultItem();
-        Assertions.assertEquals(ConfigReader.getProp("test.status.todo"), taskPage.getStatusDetailsValue());
-        Assertions.assertEquals(ConfigReader.getProp("test.version"), taskPage.getVersionDetailsValue());
+        tasksPage
+                .setSearchQuery(ConfigReader.getProp("page.main.search.query"))
+                .openSearchResultItem()
+                .compareStatusAndVersion(ConfigReader.getProp("test.status.todo"), ConfigReader.getProp("test.version"));
     }
 
     @Test
     @DisplayName("Создать новый баг с описанием")
     @Description("Создать полноценную задачу с заполнением всех доступных полей и перевести ее в статусы 'В работе' и 'Готово'")
     public void createNewBugTest(){
-        checkBugStatusAndVersionTest();
-        tasksPage.changeViewToTasks();
-        Integer initialCounterValue = tasksPage.getBugCounterValue();
-        tasksPage.openCreateBugWindow();
-        taskCreationPage.fillSummaryField(ConfigReader.getProp("page.task.summary"));
-        taskCreationPage.fillDescriptionField(ConfigReader.getProp("page.task.description"));
-        taskCreationPage.clickDescriptionVisualButton();
-        taskCreationPage.fillLabelsField(ConfigReader.getProp("page.task.label"));
-        taskCreationPage.fillEnvironmentField(ConfigReader.getProp("page.task.environment"));
-        taskCreationPage.clickEnvironmentVisualButton();
-        taskCreationPage.fillIssuedLinksField();
-        taskCreationPage.clickAssignToMeButton();
-        taskCreationPage.setChangeInVersion2();
-        taskCreationPage.setAffectedVersion2();
-        taskCreationPage.setEpicInput();
-        taskCreationPage.setSprintInput();
-        taskCreationPage.setSeverity();
-        taskCreationPage.createBug();
-        tasksPage.changeViewToTasks();
-        Integer finalCounterValue = tasksPage.getBugCounterValue();
-        Assertions.assertEquals(1, finalCounterValue-initialCounterValue);
-        tasksPage.goToCreatedTask();
-        tasksPage.setStatusInProgress();
-        tasksPage.setStatusCompleted();
-        Assertions.assertEquals(ConfigReader.getProp("test.status.complete"), tasksPage.getCurrentStatus());
+//        checkBugStatusAndVersionTest();
+        goToTestProjectTest();
+        tasksPage
+                .changeViewToTasks()
+                .getBugCounterValue()
+                .openCreateBugWindow()
+                .fillSummaryField(ConfigReader.getProp("page.task.summary"))
+                .fillDescriptionField(ConfigReader.getProp("page.task.description"))
+                .clickDescriptionVisualButton()
+                .fillLabelsField(ConfigReader.getProp("page.task.label"))
+                .fillEnvironmentField(ConfigReader.getProp("page.task.environment"))
+                .clickEnvironmentVisualButton()
+                .fillIssuedLinksField()
+                .clickAssignToMeButton()
+                .setChangeInVersion2()
+                .setAffectedVersion2()
+                .setEpicInput()
+                .setSprintInput()
+                .setSeverity()
+                .createBug()
+                .changeViewToTasks()
+                .getBugCounterValue()
+                .checkBugCounter()
+                .goToCreatedTask()
+                .setStatusInProgress()
+                .setStatusCompleted()
+                .checkCurrentTaskStatus(ConfigReader.getProp("test.status.complete"));
     }
 
 }

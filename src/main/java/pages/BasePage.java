@@ -3,6 +3,8 @@ package pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
+import pages.tasks.TaskPage;
+import pages.tasks.TasksPage;
 
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -17,18 +19,21 @@ public class BasePage {
             .as("Выпадающий список с результатами поиска");
 
     @Step("Открыть проект 'TEST'")
-    public void openTestProject(){
+    public ProjectPage openTestProject() {
         this.projectsMenu.click();
         this.testProjectLink.shouldBe(Condition.visible).click();
+        return new ProjectPage();
     }
 
     @Step("Ввести поисковой запрос в строку поиска")
-    public void setSearchQuery(String query){
+    public TasksPage setSearchQuery(String query) {
         this.searchInput.val(query);
+        return new TasksPage();
     }
 
     @Step("Выбрать первый результат поиска")
-    public void openSearchResultItem(){
+    public TaskPage openSearchResultItem() {
         searchResultItem.shouldBe(Condition.visible).click();
+        return new TaskPage();
     }
 }
